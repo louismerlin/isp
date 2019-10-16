@@ -44,7 +44,7 @@ async def hello():
     A = g^a % N
     # Encode A
     A_bigendian = A.to_bytes((A.bit_length() + 7) // 8, 'big')
-    A_hexadecimal = binascii.hexlify(A_bigendian).decode()
+    A_hexadecimal = binascii.hexlify(A_bigendian)
     # Send encoded A
     await websocket.send(A_hexadecimal) 
     # Receive encoded B
@@ -61,7 +61,7 @@ async def hello():
     h1 = hashlib.sha256()
     h1.update(salt_bigendian)
     h2 = hashlib.sha256()
-    h2.update(u)
+    h2.update(EMAIL.encode())
     h2.update(":".encode())
     h2.update(PASSWORD.encode())
     x2 = h2.digest()
@@ -70,7 +70,8 @@ async def hello():
     # S = (B - g^x) ^ (a + u * x) % N
     x_int = int.from_bytes(x, 'big')
     u_int = int.from_bytes(u, 'big')
-    S = (B - g^x_int) ^ (a + u_int * x_int) % N
+    # S = (B - g ** x_int) ** (a + u_int * x_int) % N
+    S = pow(B - pow(g, x_int, N), (a + u_int * x_int), N)
     print("S:", S)
     S_bigendian = S.to_bytes((S.bit_length() + 7) // 8, 'big')
     h = hashlib.sha256()
@@ -78,7 +79,7 @@ async def hello():
     h.update(B_bigendian)
     h.update(S_bigendian)
     final = h.digest()
-    final_hexadecimal = binascii.hexlify(final).decode()
+    final_hexadecimal = binascii.hexlify(final)
     await websocket.send(final_hexadecimal)
     print(await websocket.recv())
 
