@@ -19,8 +19,6 @@ print("\033[1mPart 1a: Brute force attack\033[0m")
 
 possible_characters = "0123456789abcdefghijklmnopqrstuvwxyz"
 
-solved = 0
-
 def brute_crack():
   for a in possible_characters:
     p1 = a
@@ -44,11 +42,12 @@ def brute_crack():
 def try_password(password):
   global solved
   hashed = hashlib.sha256(password.encode()).hexdigest()
-  for h in DIGESTS_1a:
+
+  for idx, h in enumerate(DIGESTS_1a):
     if hashed == h:
       print(h, "=>", password)
-      solved += 1
-      if solved >= len(DIGESTS_1a):
+      del DIGESTS_1a[idx]
+      if len(DIGESTS_1a) <= 0:
         return True
   return False
 
