@@ -3,10 +3,10 @@ import bcrypt
 
 app = Flask(__name__)
 
-@app.route('/', methods=['POST'])
+@app.route('/', methods=['GET', 'POST'])
 def hash_password(): 
-  data = request.get_json()
-  hashed = bcrypt.hashpw(data.pass, bcrypt.gensalt())
+  data = request.json
+  hashed = bcrypt.hashpw(data['pass'].encode(), bcrypt.gensalt())
   return hashed, 200
 
 if __name__ == "__main__":

@@ -6,5 +6,4 @@ test1b:
 test1c:
 	@docker run -it --read-only -v ${PWD}:/usr/src/homework -w /usr/src/homework python:3.8.0-alpine python 1c_salt.py
 test2:
-	@docker run -it --read-only -v ${PWD}:/app/student com402/hw3ex2
-
+	@docker run --read-only -v ${PWD}:/app/student com402/hw3ex2
