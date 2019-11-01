@@ -2,11 +2,11 @@ version: '3.3'
 
 services:
   client:
-    container_name: client
+    container_name: client1
     image: com402/hw4ex1_client
     privileged: true
   mitm:
-    container_name: mitm
+    container_name: mitm1
     image: mitm
     image: com402/hw4ex1_mitm
     privileged: true
