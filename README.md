@@ -1,5 +1,7 @@
 # isp
-Information, Security and Privacy Homeworks
+##### Information, Security and Privacy Homeworks
+
+These are the solutions I wrote during the 2019 ISP (COM-402) class. They are far from perfect, but I think all of them work :grin:
 
 ## [Homework 0](./0/)
 
