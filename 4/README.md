@@ -1,3 +1,7 @@
+# Answers for Homework 4
+
+##### [Handout here](./hw4.md)
+
 ## Exercise 1 and Exercise 2
 
 In the `client` container, run:
