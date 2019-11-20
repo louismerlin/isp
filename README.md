@@ -18,3 +18,5 @@ They are far from perfect, but I think all of them work :grin:
 ## [Homework 5](./5/)
 
 ## [Homework 6](./6/)
+
+## [Homework 7](./7/)
