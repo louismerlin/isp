@@ -2,6 +2,7 @@
 
 import csv
 import attr
+import numpy
 
 
 class BudgetDepletedError(Exception):
@@ -31,6 +32,7 @@ class DpQuerySession:
         self.db = db
         self.privacy_budget = privacy_budget
         self._load_db()
+        self.cache = dict()
 
     def _load_db(self):
         """Load the rating database from a csv-file."""
@@ -50,7 +52,7 @@ class DpQuerySession:
         Returns:
             float: The remaining privacy budget.
         """
-        return 0
+        return self.privacy_budget
 
     def get_count(self, movie_name, rating_threshold, epsilon):
         """
@@ -72,4 +74,24 @@ class DpQuerySession:
         #
         # Question: Converting to a positive integer does not affect privacy. Why?
 
-        return 0
+        answer_in_cache = self.cache.get((movie_name, rating_threshold, epsilon))
+        if answer_in_cache != None:
+            return answer_in_cache
+
+        if self.privacy_budget - epsilon < 0:
+            raise BudgetDepletedError('Budget is not sufficient')
+        self.privacy_budget -= epsilon
+
+        answer = 0
+        for rating in self._entries:
+            if rating.movie == movie_name and rating.stars >= rating_threshold:
+                answer += 1
+
+        sensitivity = 1
+        random_noise = numpy.random.laplace(scale=sensitivity / epsilon)
+
+        final_answer = answer + random_noise
+
+        self.cache[(movie_name, rating_threshold, epsilon)] = final_answer
+
+        return final_answer

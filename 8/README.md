@@ -12,4 +12,4 @@ Then, you can `make donald` to launch the script.
 
 ## Exercise 2
 
-##### TODO
+Just run `make dp` !
