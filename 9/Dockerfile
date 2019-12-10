@@ -1,9 +1,8 @@
 FROM python:3.7-alpine
 
-COPY requirements.txt /
-RUN pip3 install pptree
+RUN pip3 install pptree requests flask
 
 ADD miner /miner/
 WORKDIR /miner
 
-ENTRYPOINT ["./miner.py"]
+ENTRYPOINT ["python", "miner.py"]
